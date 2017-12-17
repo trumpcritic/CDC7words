@@ -1,0 +1,7 @@
+{
+    "require": {
+        "watson/taggly": "^1.1",
+        "sixty-nine/php-cloud-lib": "dev-master",
+        "yooper/php-text-analysis": "^1.2"
+    }
+}
