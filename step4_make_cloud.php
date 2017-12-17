@@ -1,11 +1,11 @@
 <?php
 
-	
+	chdir('grep_result');	
 
-	foreach(glob('grep_result/*.txt') as $this_grep_result_file){
+	foreach(glob('*.txt') as $this_grep_result_file){
 
 
-		$clouder_cmd = "../clouder/bin/clouder cloud:from-url  \
+		$clouder_cmd = "../../clouder/bin/clouder cloud:from-url https://raw.githubusercontent.com/trumpcritic/CDC7words/master/grep_result/$this_grep_result_file  \
     --width=1000 \
     --height=700 \
     --font=MarcellusSC-Regular.ttf \
