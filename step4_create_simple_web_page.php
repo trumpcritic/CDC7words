@@ -4,10 +4,42 @@
 
 	foreach($terms as $this_term => $trash){
 
+		echo "working on $this_term\n";
+
 		$html = get_header($this_term);
+
+
+		$grep_contents = file("grep_result/$this_term.txt");
+
+		$html .= "<ul>";
+		foreach($grep_contents as $grep_line){
+
+			$html .= "<li>";
+
+			$line_array = explode(':',$grep_line);
+			$full_file_source = array_shift($line_array);
+			$line_content = implode(':',$line_array);
+			list($dir,$file_name) = explode('/',$full_file_source);
+			$file_parts = explode('.',$file_name);
+			$txt = array_pop($file_parts);
+			$file_name = implode('.',$file_parts);
+
+
+			$highlight_term = "<a href='#' class='text-danger'>$this_term</a>";
+
+			$line_content = str_replace($this_term,$highlight_term,$line_content);
+			
+			$html .= "From: <a href='https://trumpcritic.github.io/cdc_budget_pdfs/$file_name'>$file_name</a> <br>";
+			$html .= "<p>$line_content</p> ";
+			
+
+			$html .= "</li>\n";
+		}
+		$html .= "</ul>";
 		$html .= get_footer($this_term);
 		
 		file_put_contents("html_summary/$this_term.html",$html);
+		file_put_contents("../trumpcritic.github.io/$this_term.html",$html);
 		
 	}
 
@@ -16,9 +48,6 @@ function get_footer($word){
 
 	$foot_stub = "
 </main>
-  <footer class='container'>
-      <p>&copy; TrumpCritic 2017</p>
-    </footer>
   </body>
 </html>
 ";
@@ -31,7 +60,8 @@ function get_header($word){
 
 	$head_stub = '<!doctype html>
 <html lang="en">
-<title>CDC 7 words </title>
+<title>Trump censored 7 words at the CDC </title>
+
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,14 +73,16 @@ function get_header($word){
 </head><body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">CDC 7 Words</a>
+      <a class="navbar-brand" href="index.html">#CDC7words</a>
     </nav>
     <main role="main" class="container">
 
      <div class="jumbotron">
         <div class="container">
-          <h1 class="display-3">CDC 7 Words: '.$word.'</h1>
+          <h1 class="display-3">#CDC7words</h1> 
+	<h2>This is how censoring the word '.$word.' will impact the CDC.</h1>
 	<p> This is how the CDC has used the word "'.$word.'" in all of the Congressional Budget documents in the past.
+Using this webpage, you can see which conversations between the CDC and Congress will have to change as the result of the Trump administrations decision to <a href="index.html">Censor 7 words at the CDC</a>.</p>
         </div>
       </div>
 
